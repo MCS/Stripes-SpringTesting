@@ -25,8 +25,8 @@
     </developers>
     
     <scm>
-        <connection>git://github.com/...</connection>
-        <url>http://www.github.com/mcs/sst</url>
+        <connection>scm:git://github.com/MCS/Stripes-SpringTesting.git</connection>
+        <url>https://github.com/MCS/Stripes-SpringTesting</url>
     </scm>
 	
     <dependencies>
