@@ -6,7 +6,7 @@
     <artifactId>stripes-spring-testing</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>Stripes-Spring-Testing</name>
-    <description>Enhanced test support for @SpringBean annotation. This extension allows to reuse an existing ApplicationContext within a MockServletContext. Usually, a web application uses a WebApplicationContext. This lib removes all dependencies on this class by providing custom implementations for Spring support.	</description>
+    <description>Enhanced test support for @SpringBean annotation. This extension allows to reuse an existing ApplicationContext within a MockServletContext. Usually, a web application uses a WebApplicationContext. This lib removes all dependencies on this class by providing custom implementations for Spring support.</description>
   
     <licenses>
         <license>
