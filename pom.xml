@@ -25,7 +25,7 @@
     </developers>
     
     <scm>
-        <connection>scm:git://github.com/MCS/Stripes-SpringTesting.git</connection>
+        <connection>scm:git:git@github.com:MCS/Stripes-SpringTesting.git</connection>
         <url>https://github.com/MCS/Stripes-SpringTesting</url>
     </scm>
 	
@@ -89,16 +89,18 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
                 <configuration>
                     <source>1.5</source>
                     <target>1.5</target>
-                    <encoding>UTF-8</encoding>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
         </plugins>
     </build>
   
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>3.0.5.RELEASE</spring.version>
     </properties>
 </project>
