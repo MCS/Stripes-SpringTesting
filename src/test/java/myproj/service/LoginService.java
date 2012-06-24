@@ -18,12 +18,15 @@
  */
 package myproj.service;
 
+import myproj.exception.ImplementedLaterException;
 import myproj.exception.WrongPasswordException;
 import myproj.model.User;
+import org.springframework.stereotype.Service;
 
+@Service("myConcreteLoginService")
 public class LoginService {
 
     public User login(String username, String password) throws WrongPasswordException {
-        throw new RuntimeException("Not implemented!");
+        throw new ImplementedLaterException("Test exception from LoginService!");
     }
 }

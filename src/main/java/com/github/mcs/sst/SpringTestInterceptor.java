@@ -18,11 +18,11 @@
  */
 package com.github.mcs.sst;
 
-import net.sourceforge.stripes.controller.Interceptor;
+import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.controller.ExecutionContext;
+import net.sourceforge.stripes.controller.Interceptor;
 import net.sourceforge.stripes.controller.Intercepts;
 import net.sourceforge.stripes.controller.LifecycleStage;
-import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.util.Log;
 
 /**
@@ -38,8 +38,7 @@ import net.sourceforge.stripes.util.Log;
  * &lt;init-param&gt;
  *     &lt;param-name&gt;Interceptor.Classes&lt;/param-name&gt;
  *     &lt;param-value&gt;
- *         net.sourceforge.stripes.integration.spring.SpringInterceptor,
- *         net.sourceforge.stripes.controller.BeforeAfterMethodInterceptor
+ *         net.sourceforge.stripes.integration.spring.SpringInterceptor
  *     &lt;/param-value&gt;
  * &lt;/init-param&gt;
  * </pre>
@@ -65,6 +64,7 @@ public class SpringTestInterceptor implements Interceptor {
      * @return the Resolution produced by calling context.proceed()
      * @throws Exception if the Spring binding process produced unrecoverable errors
      */
+    @Override
     public Resolution intercept(ExecutionContext context) throws Exception {
         Resolution resolution = context.proceed();
         log.debug("Running Spring dependency injection for instance of ",

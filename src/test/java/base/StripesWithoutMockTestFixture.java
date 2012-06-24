@@ -23,27 +23,26 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javax.servlet.Filter;
+import javax.servlet.ServletContextEvent;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.controller.DispatcherServlet;
 import net.sourceforge.stripes.controller.StripesFilter;
 import net.sourceforge.stripes.mock.MockServletContext;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.ContextLoaderListener;
 
 /**
  * Extend this class to create a unit test that will run tests against some {@link ActionBean Stripes Action Beans}.
- * <p>
- * This fixture provides a full featured {@link MockServletContext}. Already configured are the
- * {@link SpringTestInterceptor}, the package where your action beans are located, a stripes extension package and the
- * default {@link ResourceBundle} pointing at <code>StripesResources.properties</code>.
+ * <p> This fixture provides a full featured {@link MockServletContext}. Already
+ * configured are the
+ * {@link SpringTestInterceptor}, the package where your action beans are
+ * located, a stripes extension package and the default {@link ResourceBundle}
+ * pointing at
+ * <code>StripesResources.properties</code>.
  */
-@ContextConfiguration(locations = StripesTestFixture.TEST_APPLICATION_CONTEXT_XML)
-public abstract class StripesTestFixture extends SpringServiceTestFixture {
+public abstract class StripesWithoutMockTestFixture extends SpringServiceTestFixture {
 
-    public static final String TEST_APPLICATION_CONTEXT_XML = "classpath:test-context.xml";
     protected static final MockServletContext CTX = new MockServletContext("mock_ctx");
 
     /**
@@ -60,19 +59,17 @@ public abstract class StripesTestFixture extends SpringServiceTestFixture {
         // required entry
         filterParams.put("ActionResolver.Packages", "myproj.action");
         filterParams.put("Extension.Packages", "myproj.stripesext");
-        // Here we add our own SpringTestInterceptor instead of the default one
-        filterParams.put("Interceptor.Classes", "com.github.mcs.sst.SpringTestInterceptor");
+        filterParams.put("Interceptor.Classes", "net.sourceforge.stripes.integration.spring.SpringInterceptor");
         CTX.addFilter(StripesFilter.class, "StripesFilter", filterParams);
     }
 
     private static void initServlet() {
-        CTX.addInitParameter("contextConfigLocation", TEST_APPLICATION_CONTEXT_XML);
-        CTX.setServlet(DispatcherServlet.class, "StripesDispatcher", null);
-    }
+        CTX.addInitParameter("contextConfigLocation", SPRING_APPLICATION_CONTEXT_XML);
 
-    @Before
-    public void injectSpringContextInServletContext() {
-        CTX.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
+        ContextLoaderListener springContextListener = new ContextLoaderListener();
+        springContextListener.contextInitialized(new ServletContextEvent(CTX));
+
+        CTX.setServlet(DispatcherServlet.class, "StripesDispatcher", null);
     }
 
     /**

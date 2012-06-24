@@ -49,6 +49,7 @@ public class LoginActionBean extends BaseActionBean {
     public Resolution login() {
         try {
             user = loginService.login(username, password);
+            getContext().setUser(user);
             return new RedirectResolution(SUCCESS_JSP);
         } catch (WrongPasswordException e) {
             getContext().getValidationErrors().add("password", new SimpleError("You entered a wrong password."));

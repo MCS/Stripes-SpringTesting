@@ -18,22 +18,21 @@
  */
 package myproj.action;
 
+import myproj.stripesext.MyprojActionBeanContext;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 
 public class BaseActionBean implements ActionBean {
 
-    private ActionBeanContext context;
+    private MyprojActionBeanContext context;
 
-    public BaseActionBean() {
-        super();
-    }
-
+    @Override
     public void setContext(ActionBeanContext context) {
-        this.context = context;
+        this.context = (MyprojActionBeanContext) context;
     }
 
-    public ActionBeanContext getContext() {
+    @Override
+    public MyprojActionBeanContext getContext() {
         return context;
     }
 }

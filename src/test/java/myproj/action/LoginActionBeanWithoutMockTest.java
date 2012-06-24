@@ -18,88 +18,69 @@
  */
 package myproj.action;
 
-import base.StripesTestFixture;
-import myproj.exception.WrongPasswordException;
-import myproj.model.User;
-import myproj.service.LoginService;
+import base.StripesWithoutMockTestFixture;
+import myproj.exception.ImplementedLaterException;
+import net.sourceforge.stripes.exception.StripesServletException;
 import net.sourceforge.stripes.mock.MockHttpSession;
 import net.sourceforge.stripes.mock.MockRoundtrip;
 import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Mockito.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
-public class LoginActionBeanTest extends StripesTestFixture {
-    public static final User USER = new User();
+public class LoginActionBeanWithoutMockTest extends StripesWithoutMockTestFixture {
 
     private static final Class<LoginActionBean> CLAZZ = LoginActionBean.class;
     private static final String USERNAME = "testuser";
     private static final String PASSWORD = "testpass";
-    @Autowired
-    private LoginService loginService;
     private MockHttpSession session;
     private MockRoundtrip trip;
 
     @Before
-    public void initFixture() throws Exception {
-        initMockService();
-        resetStripesMocks();
-    }
-
-    private void initMockService() throws Exception {
-    	reset(loginService);
-        when(loginService.login(USERNAME, PASSWORD)).thenReturn(USER);
-    }
-
-    private void resetStripesMocks() {
+    public void initRoundtrip() {
         session = new MockHttpSession(CTX);
         trip = new MockRoundtrip(CTX, CLAZZ, session);
     }
 
     @Test
     public void validCredentials() throws Exception {
-        trip.setParameter("username", USERNAME);
-        trip.setParameter("password", PASSWORD);
+        try {
+            trip.setParameter("username", USERNAME);
+            trip.setParameter("password", PASSWORD);
 
-        trip.execute("login");
+            trip.execute("login");
 
-        /* The call of verify is usually not needed:
-         * The event handler relies on a valid User returned by the loginService. */
-        verify(loginService).login(USERNAME, PASSWORD); 
-        
-        // From here on the real unit tests
-        LoginActionBean bean = trip.getActionBean(CLAZZ);
-        assertThat(bean.getUser(), notNullValue());
-        assertThat(trip.getValidationErrors().size(), is(0));
-        assertThat(trip.getRedirectUrl(), is("/mock_ctx" + LoginActionBean.SUCCESS_JSP));
-        assertThat((User) session.getAttribute("user"), is(USER));
+            // BOOM! Exception from real LoginService!
+            fail("Expected exception from LoginService!");
+        } catch (StripesServletException e) {
+            assertThat(e.getRootCause(), is(ImplementedLaterException.class));
+        }
     }
 
     @Test
     public void wrongCredentials() throws Exception {
-        String wrongpass = "wrongpass";
-        when(loginService.login(USERNAME, wrongpass)).thenThrow(new WrongPasswordException());
-        trip.setParameter("username", USERNAME);
-        trip.setParameter("password", wrongpass);
+        try {
+            String wrongpass = "wrongpass";
+            trip.setParameter("username", USERNAME);
+            trip.setParameter("password", wrongpass);
 
-        trip.execute("login");
+            trip.execute("login");
 
-        /* The call of verify is usually not needed:
-         * The event handler relies on a valid User returned by the loginService. */
-        verify(loginService).login(USERNAME, wrongpass);
-        
-        // From here on the real unit tests
-        assertThat(trip.getForwardUrl(), equalTo(MockRoundtrip.DEFAULT_SOURCE_PAGE));
-        assertThat(trip.getValidationErrors().size(), is(1));
-        assertThat(session.getAttribute("user"), is(nullValue()));
+            // BOOM! Exception from real LoginService!
+            fail("Expected exception from LoginService!");
+        } catch (StripesServletException e) {
+            assertThat(e.getRootCause(), is(ImplementedLaterException.class));
+        }
     }
 
     @Test
     public void noCredentials() throws Exception {
+        trip.setParameter("username", "");
+        trip.setParameter("password", "");
+
         trip.execute("login");
 
         // From here on the real unit tests

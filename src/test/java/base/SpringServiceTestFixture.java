@@ -37,8 +37,9 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class})
-@ContextConfiguration(locations = "classpath:spring-context.xml")
+@ContextConfiguration(locations = SpringServiceTestFixture.SPRING_APPLICATION_CONTEXT_XML)
 public abstract class SpringServiceTestFixture extends BaseTestFixture implements ApplicationContextAware {
+    public static final String SPRING_APPLICATION_CONTEXT_XML = "classpath:spring-context.xml";
 
     /**
      * The {@link ApplicationContext} that was injected into this test instance
@@ -46,6 +47,7 @@ public abstract class SpringServiceTestFixture extends BaseTestFixture implement
      */
     protected ApplicationContext applicationContext;
 
+    @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }

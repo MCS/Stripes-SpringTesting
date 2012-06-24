@@ -19,7 +19,6 @@
 package base;
 
 import java.util.Locale;
-
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 

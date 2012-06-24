@@ -19,11 +19,8 @@
 package com.github.mcs.sst;
 
 import javax.servlet.ServletContext;
-
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.controller.StripesFilter;
-import net.sourceforge.stripes.integration.spring.SpringHelper;
-
 import net.sourceforge.stripes.integration.spring.SpringHelper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
