@@ -7,7 +7,7 @@
         <artifactId>oss-parent</artifactId>
         <version>7</version>
     </parent>
-    <groupId>com.github.mcs.stripes-spring-testing</groupId>
+    <groupId>com.github.mcs</groupId>
     <artifactId>stripes-spring-testing</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>Stripes-Spring-Testing</name>
@@ -24,13 +24,12 @@
         <developer>
             <name>Marcus Krassmann</name>
             <email>marcus.krassmann@gmail.com</email>
-            <organization>Silpion IT Solutions</organization>
-            <organizationUrl>http://www.silpion.de</organizationUrl>
         </developer>
     </developers>
     
     <scm>
         <connection>scm:git:git@github.com:mcs/Stripes-SpringTesting.git</connection>
+        <developerConnection>scm:git:git@github.com:mcs/Stripes-SpringTesting.git</developerConnection>
         <url>https://github.com/mcs/Stripes-SpringTesting</url>
     </scm>
 	
